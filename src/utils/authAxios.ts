@@ -1,21 +1,15 @@
-import axios from 'axios';
+import axios, { Axios } from 'axios';
 import Cookies from 'js-cookie';
-import { baseUrl } from '../';
+import { baseUrl } from '../shared/baseUrl';
+import { login } from '../api/auth/login';
 
 const authAxios = (() => {
-  let instance;
+  let instance: Axios;
 
   return {
     getInstance() {
       if (!instance) {
-        instance = axios.create({
-          baseURL: baseUrl.CONSOLE_API_SEOUL, // 기본 주소는 서울 리전
-          // 파라미터 직렬화
-          paramsSerializer: {
-            serialize: (params) =>
-              Qs.stringify(params, { arrayFormat: 'brackets' }),
-          },
-        });
+        instance = axios.create();
 
         // 요청 가로채기
         instance.interceptors.request.use(
