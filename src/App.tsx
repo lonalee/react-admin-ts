@@ -1,13 +1,28 @@
-import { Admin, Resource } from 'react-admin';
-import jsonServerProvider from 'ra-data-json-server';
-import { focusManager } from '@tanstack/react-query';
-import { authProvider } from './authProvider';
+import { fetchUtils, Admin, Resource } from 'react-admin';
 
-import { UserList } from './components/users';
+import { focusManager } from '@tanstack/react-query';
+import Cookies from 'js-cookie';
+import { authProvider } from './authProvider';
+import dataProvider from './dataProvider';
+
+import { ProjectsList } from './components/projects';
 import { PostList } from './components/posts';
 import { PostEdit } from './components/edit';
 
-const dataProvider = jsonServerProvider('https://jsonplaceholder.typicode.com');
+interface MyHeaders {
+  headers: Headers;
+}
+
+const fetchJson = (url: string, options = {} as MyHeaders) => {
+  if (!options.headers) {
+    options.headers = new Headers({
+      Accept: 'application/json',
+      access_token: Cookies.get('access_token'),
+    });
+  }
+
+  return fetchUtils.fetchJson(url, options);
+};
 
 const App = () => {
   focusManager.setEventListener((handleFocus) => {
@@ -30,9 +45,17 @@ const App = () => {
       });
     };
   });
+
   return (
-    <Admin requireAuth authProvider={authProvider} dataProvider={dataProvider}>
-      <Resource name="users" list={UserList} recordRepresentation="name" />
+    <Admin
+      authProvider={authProvider}
+      dataProvider={dataProvider('http://localhost:12300', fetchJson)}
+    >
+      <Resource
+        name="console/project/v1.3"
+        list={ProjectsList}
+        recordRepresentation="name"
+      />
       <Resource name="posts" list={PostList} edit={PostEdit} />
     </Admin>
   );
