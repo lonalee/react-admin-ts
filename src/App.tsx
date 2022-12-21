@@ -54,7 +54,7 @@ const App = () => {
       dataProvider={dataProvider('http://localhost:12300', fetchJson)}
     >
       <Resource
-        name="console/project/v1.3"
+        name="console/project/v1.3" // main api (getList를 위한 엔드포인트 설정)
         list={ProjectsList}
         recordRepresentation="name"
       >

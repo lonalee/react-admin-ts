@@ -13,15 +13,15 @@ export default (
    * @returns
    */
   getList: (resource, params) => {
-    console.log('##params --> ', params);
     const { page, perPage } = params.pagination;
     // const { field, order } = params.sort;
 
     const query = {
       ...fetchUtils.flattenObject(params.filter),
       offset: (page - 1) * perPage,
+      limit: perPage,
     };
-    console.log('##query --> ', query);
+
     const url = `${apiUrl}/${resource}?${stringify(query)}`;
 
     return httpClient(url).then(({ headers, json }) => {
@@ -57,9 +57,12 @@ export default (
   },
 
   getOne: (resource, params) =>
-    httpClient(`${apiUrl}/${resource}/${params.id}`).then(({ json }) => ({
-      data: json,
-    })),
+    httpClient(`${apiUrl}/${resource}/${params.id}`).then(({ json }) => {
+      // const newData = {} // 생략
+      return {
+        data: { ...json, id: json.gameId ?? Math.random() },
+      };
+    }),
 
   getMany: (resource, params) => {
     const query = {
