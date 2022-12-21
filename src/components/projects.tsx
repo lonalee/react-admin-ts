@@ -1,7 +1,7 @@
 import { List, Datagrid, DateField, TextInput, TopToolbar } from 'react-admin';
 import { TableHead, TableRow, TableCell } from '@mui/material';
 
-import { AnchorField, FunctionField, TextField } from './datagridFields';
+import { LinkField, FunctionField, TextField } from './datagridFields';
 
 import { FilterForm, FilterButton } from './filterForm';
 import { Box } from '@mui/material';
@@ -72,7 +72,7 @@ export const ProjectsList = () => {
   return (
     <List actions={<ListActions />}>
       <Datagrid header={<DatagridHeader />}>
-        <AnchorField source="title" />
+        <LinkField source="title" />
         <TextField source="id" />
         <TextField source="clientAppId" />
         <TextField source="companyName" />

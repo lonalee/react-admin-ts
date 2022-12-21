@@ -1,4 +1,5 @@
 import {
+  Link,
   useRecordContext,
   FunctionField as OrgFunctionField,
   DateField as OrgDateField,
@@ -11,11 +12,17 @@ export const TextField = ({ source }) => {
   return <span>{record[source] ?? '없음'}</span>;
 };
 
-export const AnchorField = ({ source }) => {
+export const LinkField = ({ source }) => {
   const record = useRecordContext();
 
   if (!record) return null;
-  return <a href={record[source]}>{record[source]}</a>;
+
+  // a Tag -> Link Tag 사용
+  return (
+    <Link state={record} to={`sub-path/${record.id}`}>
+      {record[source]}
+    </Link>
+  );
 };
 
 export const FunctionField = ({

@@ -1,4 +1,5 @@
-import { fetchUtils, Admin, Resource } from 'react-admin';
+import { fetchUtils, Admin, Resource, CustomRoutes } from 'react-admin';
+import { Route } from 'react-router-dom';
 
 import { focusManager } from '@tanstack/react-query';
 import Cookies from 'js-cookie';
@@ -8,6 +9,7 @@ import dataProvider from './dataProvider';
 import { ProjectsList } from './components/projects';
 import { PostList } from './components/posts';
 import { PostEdit } from './components/edit';
+import { CustomPage } from './components/Pages/CustomPage';
 
 interface MyHeaders {
   headers: Headers;
@@ -55,7 +57,9 @@ const App = () => {
         name="console/project/v1.3"
         list={ProjectsList}
         recordRepresentation="name"
-      />
+      >
+        <Route path="/sub-path/*" element={<CustomPage />} />
+      </Resource>
       <Resource name="posts" list={PostList} edit={PostEdit} />
     </Admin>
   );
