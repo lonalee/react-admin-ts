@@ -1,4 +1,11 @@
-import { fetchUtils, Admin, Resource, CustomRoutes } from 'react-admin';
+import {
+  fetchUtils,
+  Admin,
+  Resource,
+  Menu,
+  CustomRoutes,
+  Layout,
+} from 'react-admin';
 import { Route } from 'react-router-dom';
 
 import { focusManager } from '@tanstack/react-query';
@@ -10,6 +17,7 @@ import { ProjectsList } from './components/projects';
 import { PostList } from './components/posts';
 import { PostEdit } from './components/edit';
 import { CustomPage } from './components/Pages/CustomPage';
+import { MyMenu } from './sideMenu/SideMenu';
 
 interface MyHeaders {
   headers: Headers;
@@ -48,19 +56,40 @@ const App = () => {
     };
   });
 
+  const isTest = true;
+
+  const MyLayout = (props: any) => <Layout {...props} menu={MyMenu} />;
+
   return (
     <Admin
+      layout={MyLayout}
       authProvider={authProvider}
       dataProvider={dataProvider('http://localhost:12300', fetchJson)}
     >
-      <Resource
-        name="console/project/v1.3" // main api (getList를 위한 엔드포인트 설정)
-        list={ProjectsList}
-        recordRepresentation="name"
-      >
-        <Route path="/sub-path/*" element={<CustomPage />} />
-      </Resource>
-      <Resource name="posts" list={PostList} edit={PostEdit} />
+      {isTest ? (
+        <>
+          <Resource
+            name="console/project/v1.3" // main api (getList를 위한 엔드포인트 설정)
+            list={ProjectsList}
+            recordRepresentation="name"
+          >
+            <Route path="/sub-path/*" element={<CustomPage />} />
+          </Resource>
+          <Resource name="posts" list={PostList} edit={PostEdit} />
+        </>
+      ) : (
+        <>
+          <Resource
+            name="console/project/v1.3" // main api (getList를 위한 엔드포인트 설정)
+            list={ProjectsList}
+            recordRepresentation="name"
+          >
+            <Route path="/sub-path/*" element={<CustomPage />} />
+          </Resource>
+          <Resource name="posts" list={PostList} edit={PostEdit} />
+        </>
+      )}
+      {/* TODO: sideMenu MOD를 위해서 customRoute를 사용해야 하는지 확인? */}
     </Admin>
   );
 };

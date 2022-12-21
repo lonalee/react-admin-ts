@@ -13,6 +13,10 @@ export default (
    * @returns
    */
   getList: (resource, params) => {
+    /**
+     *
+     * */
+
     const { page, perPage } = params.pagination;
     // const { field, order } = params.sort;
 
