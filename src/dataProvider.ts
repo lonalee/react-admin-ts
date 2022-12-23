@@ -6,20 +6,14 @@ export default (
   httpClient = fetchUtils.fetchJson
 ): DataProvider => ({
   /**
-   *
    * @param resource
    * @param params
    * offset, filter->{startDate,endDate,status,store,deleteEndDate,deleteStartDate,release}
    * @returns
    */
   getList: (resource, params) => {
-    /**
-     *
-     * */
-
     const { page, perPage } = params.pagination;
     // const { field, order } = params.sort;
-
     const query = {
       ...fetchUtils.flattenObject(params.filter),
       offset: (page - 1) * perPage,
@@ -36,6 +30,11 @@ export default (
       // }
 
       const { isLast, totalCount, projectList } = json;
+      // TODO:getList의 모듈화 -> 불가능??
+      /**
+       * 1. fetch된 rows등을 mod하는 함수를 작성하자. -> 의미없음 (데이터 키밸류들이 다 다르므로)
+       * 2. 스위치문을 작성해서 resource별로 각기 다른 함수로 처리...
+       */
       const data = projectList.map((row: any) => ({
         appleReleased: row.appleReleased ? '출시' : '미출시',
         appleReleasedIndate: row.appleReleasedIndate ?? '-',
@@ -54,7 +53,7 @@ export default (
       }));
       return {
         isLast,
-        data, // TODO: 메뉴별로 커스텀할 방법을 찾아야 한다!
+        data,
         total: totalCount,
       };
     });

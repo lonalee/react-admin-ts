@@ -3,6 +3,7 @@ import {
   useRecordContext,
   FunctionField as OrgFunctionField,
   DateField as OrgDateField,
+  ReferenceField as OrgReferenceField,
 } from 'react-admin';
 
 export const TextField = ({ source }) => {
@@ -47,4 +48,14 @@ export const DateField = ({ source }) => {
   const record = useRecordContext();
   if (!record) return null;
   return <OrgDateField source={record[source]} />;
+};
+
+// 필요할까?
+export const CustomField = () => {
+  const record = useRecordContext();
+  return (
+    <span>
+      <DefaultDialog modalOpen={modalOpen} setModalOpen={setModalOpen} />
+    </span>
+  );
 };

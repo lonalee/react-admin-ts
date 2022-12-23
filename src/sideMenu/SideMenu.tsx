@@ -4,7 +4,7 @@ import ListItem from '@mui/icons-material/List';
 
 export const MyMenu = () => {
   const resources = useResourceDefinitions();
-  console.log('@chk resources@', resources);
+
   return (
     <Menu>
       <Menu.ResourceItem name="posts" />

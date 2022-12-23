@@ -1,10 +1,19 @@
-import { List, Datagrid, DateField, TextInput, TopToolbar } from 'react-admin';
-import { TableHead, TableRow, TableCell } from '@mui/material';
+import {
+  List,
+  Datagrid,
+  DateField,
+  TextInput,
+  TopToolbar,
+  useRecordContext,
+  useStore,
+} from 'react-admin';
+import { useState, SetStateAction } from 'react';
+import { TableHead, TableRow, TableCell, Box } from '@mui/material';
 
 import { LinkField, FunctionField, TextField } from './datagridFields';
-
 import { FilterForm, FilterButton } from './filterForm';
-import { Box } from '@mui/material';
+import { DefaultDialog } from './Dialog';
+import MaxWidthDialog from './Dialog2';
 
 export const ProjectsList = () => {
   const DatagridHeader = () => (
@@ -46,17 +55,6 @@ export const ProjectsList = () => {
     { label: '스토어 정보', source: 'store' },
     { label: '출시 정보', source: 'release' },
     { label: '상태', source: 'status', type: 'select' },
-
-    // <TextInput label="프로젝트" source="title" alwaysOn />,
-    // <TextInput source="id" label="아이디" alwaysOn />,
-    // <TextInput source="companyName" label="회사명" alwaysOn />,
-    // <TextInput source="clientAppId" label="클라이언트 앱 아이디" alwaysOn />,
-    // <TextInput source="discountRate" label="할인율" alwaysOn />,
-    // <TextInput source="inDate" label="생성일" alwaysOn />,
-    // <TextInput source="plan" label="요금제" alwaysOn />,
-    // <TextInput source="store" label="스토어 정보" alwaysOn />,
-    // <TextInput source="release" label="출시 정보" alwaysOn />,
-    // <TextInput source="" label="상태" alwaysOn />,
   ];
 
   const ListActions = () => (
@@ -69,23 +67,28 @@ export const ProjectsList = () => {
     </Box>
   );
 
+  const [record, setRecord] = useStore('project.list.record', {});
+
   return (
-    <List actions={<ListActions />}>
-      <Datagrid header={<DatagridHeader />}>
-        <LinkField source="title" />
-        <TextField source="id" />
-        <TextField source="clientAppId" />
-        <TextField source="companyName" />
-        <DateField source="inDate" showTime />
-        <TextField source="avgDAU" />
-        <TextField source="plan" />
-        <TextField source="discountRate" />
-        <FunctionField fieldNames={['googleStore', 'appleStore']} />
-        <TextField source="googleReleased" />
-        <TextField source="appleReleased" />
-        <TextField source="status" />
-        <TextField source="mgt" />
-      </Datagrid>
-    </List>
+    <>
+      <List actions={<ListActions />}>
+        <Datagrid header={<DatagridHeader />}>
+          <LinkField source="title" />
+          <TextField source="id" />
+          <TextField source="clientAppId" />
+          <TextField source="companyName" />
+          <DateField source="inDate" showTime />
+          <TextField source="avgDAU" />
+          <TextField source="plan" />
+          <TextField source="discountRate" />
+          <FunctionField fieldNames={['googleStore', 'appleStore']} />
+          <TextField source="googleReleased" />
+          <TextField source="appleReleased" />
+          <TextField source="status" />
+          {/* <DefaultDialog /> */}
+          <MaxWidthDialog />
+        </Datagrid>
+      </List>
+    </>
   );
 };
